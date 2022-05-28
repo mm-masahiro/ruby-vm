@@ -7,7 +7,16 @@ module Saria
 		end
 
 		def run
-			puts iseq.disasm
+			iseq.to_a.last.each do |instruction|
+				next unless instruction.is_a?(Array)
+				execute(instruction)
+			end
+		end
+
+		def execute(instruction)
+			opecode = instruction.first
+			operand = instruction[1..-1]
+			$stderr.puts "=== #{opecode}(#{operand.map(&:inspect).join(', ')})"
 		end
 	end
 end
